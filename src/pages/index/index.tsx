@@ -254,7 +254,7 @@ export default function ({}) {
             backgroundImage:
               "url('https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/aj3qw-aw3v7.webp')",
             backgroundSize: '100% 100%',
-            height: '11.6rem',
+            height: '12.2rem',
             marginBottom: '-1rem',
             transform: showModal ? 'translateY(0%)' : 'translateY(100%)',
             transition: 'all 0.3s ease-in-out',
@@ -268,7 +268,7 @@ export default function ({}) {
           <div
             style={{
               backgroundColor: '#f8b551',
-              height: '1.8rem',
+              height: '2.5rem',
               borderRadius: '0.24rem',
               position: 'relative',
               padding: '0.42rem',
@@ -276,6 +276,9 @@ export default function ({}) {
               fontSize: '0.40rem',
               textAlign: 'left',
               fontWeight: 'bold',
+              marginBottom: '0.24rem',
+              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+              border: '1px solid #ddd',
             }}
           >
             <img
