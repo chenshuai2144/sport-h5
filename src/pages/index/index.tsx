@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.css';
 
 const DISABLE_BG =
-  'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/已完成 (1).png';
-const SHOW_BG =
-  'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/基本v (1).png';
+  'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/hvyNRr5Nf3oAAAAAAAAAAAAAFl94AQBr';
 
 /**
  * 支持 disable 的配置
@@ -16,6 +14,7 @@ const DisableButton: React.FC<{
   text: string;
   disabled?: boolean;
   onClick: any;
+  url: string;
 }> = (props) => {
   return (
     <div
@@ -26,7 +25,7 @@ const DisableButton: React.FC<{
         height: '0.9rem',
         display: 'flex',
         alignItems: 'end',
-        backgroundImage: `url("${props.disabled ? DISABLE_BG : SHOW_BG}")`,
+        backgroundImage: `url("${props.disabled ? DISABLE_BG : props.url}")`,
         backgroundSize: '100% 100%',
       }}
       onClick={props.onClick}
@@ -447,6 +446,7 @@ const Modal: React.FC<{
           button={
             <DisableButton
               text="去分享"
+              url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
               onClick={() => {
                 props.openAction(shareObj);
               }}
@@ -457,7 +457,7 @@ const Modal: React.FC<{
           icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/分享 (1).png"
           title="跑步步数达3333步及以上"
           subTitle="+0.5 助力值"
-          button={<DisableButton text="去运动" onClick={() => {}} />}
+          button={<DisableButton text="去运动" url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr" onClick={() => {}} />}
         />
         <div
           style={{
