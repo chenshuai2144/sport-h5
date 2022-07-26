@@ -3,14 +3,14 @@
   "private": true,
   "scripts": {
     "build": "alita build",
+    "deploy": "npm run build && gh-pages -d ./dist",
     "dev": "alita dev",
     "format": "prettier --write .",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .ts,.tsx",
     "plugin": "alita plugin list",
     "start": "alita dev",
-    "test": "jest",
-    "deploy": "npm run build && gh-pages -d ./dist"
+    "test": "jest"
   },
   "lint-staged": {
     "**/*.{ts,tsx}": "npm run lint-staged:js",
