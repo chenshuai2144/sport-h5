@@ -1,3 +1,4 @@
+import { useNavigate } from 'alita';
 import React, { useEffect, useState } from 'react';
 import styles from './index.css';
 
@@ -15,21 +16,23 @@ const Modal: React.FC<{
 }> = (props) => {
   return (
     <div>
-      <div
-        style={{
-          height: '100%',
-          position: 'fixed',
-          width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.9)',
-          top: 0,
-          left: 0,
-          display: 'flex',
-          alignItems: 'flex-end',
-        }}
-        onClick={() => {
-          props.onVisibleChange(false);
-        }}
-      />
+      {props.visible && (
+        <div
+          style={{
+            height: '100%',
+            position: 'fixed',
+            width: '100%',
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            alignItems: 'flex-end',
+          }}
+          onClick={() => {
+            props.onVisibleChange(false);
+          }}
+        />
+      )}
       <div
         style={{
           height: '100%',
@@ -115,47 +118,170 @@ const Modal: React.FC<{
 };
 
 const BaoMingModal: React.FC<{
-  onClose: () => void;
+  visible: boolean;
+  onVisibleChange: (visible: boolean) => void;
 }> = (props) => {
+  const navigate = useNavigate();
+  const [phoneNumber, setPhoneNumber] = useState(() => {
+    return localStorage.getItem('user-phone-number');
+  });
+  const [info, setInfo] = useState<{
+    name: undefined | string;
+    phoneNumber: undefined | string;
+    wechat: undefined | string;
+    address: undefined | string;
+  }>({
+    name: undefined,
+    phoneNumber: undefined,
+    wechat: undefined,
+    address: undefined,
+  });
+  const [errorInfo, setErrorInfo] = useState('');
+  useEffect(() => {
+    if (!phoneNumber) return;
+    setInfo({
+      name: undefined,
+      phoneNumber: undefined,
+      wechat: undefined,
+      address: undefined,
+    });
+  }, [phoneNumber]);
   return (
     <>
-      <div
-        style={{
-          height: '100%',
-          position: 'fixed',
-          width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.9)',
-          top: 0,
-          left: 0,
-          display: 'flex',
-          alignItems: 'flex-end',
-        }}
-        onClick={() => {
-          props.onClose();
-        }}
-      />
-      <div>
+      {props.visible && (
         <div
           style={{
-            width: '9.5rem',
-            height: '11rem',
+            height: '100%',
+            position: 'fixed',
+            width: '100%',
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            alignItems: 'flex-end',
+          }}
+          onClick={() => {
+            props.onVisibleChange(false);
+          }}
+        />
+      )}
+      <div
+        style={{
+          position: 'fixed',
+          top: !props.visible ? 0 : '12%',
+          width: '95%',
+          margin: '0 auto',
+          left: '2.5%',
+          zIndex: 99,
+          transition: 'all 0.3s ease-in-out',
+          transform: props.visible ? 'translateY(0%)' : 'translateY(140%)',
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
+            padding: '0.8rem 0.8rem',
+            paddingTop: '2.2rem',
+            paddingBottom: '1.2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.24rem',
             backgroundImage:
               'url("https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/fhq6S6PFlNUAAAAAAAAAAAAAFl94AQBr")',
           }}
         >
           <div
             style={{
-              background: '#F4F4F4',
-              border: '1px solid #E8E8E8',
+              fontSize: '0.24rem',
+              color: '#fa541c',
+              marginTop: '-0.24rem',
+              height: '0.4rem',
             }}
           >
-            <input />
+            {errorInfo}
           </div>
+          <input
+            style={{
+              background: '#F4F4F4',
+              border: '1px solid #E8E8E8',
+              boxShadow: 'none',
+              outline: 'none',
+              width: '100%',
+              height: '0.8rem',
+              paddingLeft: '0.2rem',
+            }}
+            placeholder="姓名"
+            onChange={(e) => {
+              setInfo((info) => ({ ...info, name: e.target.value }));
+            }}
+          />
+          <input
+            style={{
+              background: '#F4F4F4',
+              border: '1px solid #E8E8E8',
+              boxShadow: 'none',
+              outline: 'none',
+              width: '100%',
+              paddingLeft: '0.2rem',
+              height: '0.8rem',
+            }}
+            placeholder="手机号码"
+            onChange={(e) => {
+              setInfo((info) => ({ ...info, phoneNumber: e.target.value }));
+            }}
+          />
+          <input
+            style={{
+              background: '#F4F4F4',
+              border: '1px solid #E8E8E8',
+              boxShadow: 'none',
+              outline: 'none',
+              width: '100%',
+              height: '0.8rem',
+              paddingLeft: '0.2rem',
+            }}
+            placeholder="微信账号"
+            onChange={(e) => {
+              setInfo((info) => ({ ...info, wechat: e.target.value }));
+            }}
+          />
+          <textarea
+            style={{
+              background: '#F4F4F4',
+              border: '1px solid #E8E8E8',
+              boxShadow: 'none',
+              paddingLeft: '0.2rem',
+              outline: 'none',
+              width: '100%',
+            }}
+            rows={5}
+            onChange={(e) => {
+              setInfo((info) => ({ ...info, address: e.target.value }));
+            }}
+            placeholder="收货地址"
+          />
         </div>
 
         <img
+          style={{
+            width: '4rem',
+          }}
+          onClick={() => {
+            setErrorInfo('');
+            // 任何一个必填都不能点
+            if (Object.keys(info).some((key) => !info?.[key as 'name'])) {
+              setErrorInfo('所有的表单项都需要输入哦');
+              return;
+            }
+            if (info.phoneNumber) {
+              localStorage.setItem('user-phone-number', info.phoneNumber);
+              setPhoneNumber(info.phoneNumber);
+            }
+            console.log(info);
+            navigate('/');
+          }}
           alt="完成"
           src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/HVf-TpG9PvkAAAAAAAAAAAAAFl94AQBr"
         />
@@ -170,6 +296,7 @@ const f =
 export default function ({}) {
   const [ruleModal, setRuleModal] = useState(false);
   const [choujiangModal, setChoujiangModal] = useState(false);
+  const [baomingModal, setBaomingModal] = useState(false);
   useEffect(() => {
     document.title = '报名 - 线上马拉松';
   }, []);
@@ -222,6 +349,9 @@ export default function ({}) {
           fontWeight: 'bold',
           lineHeight: '1.28rem',
         }}
+        onClick={() => {
+          setBaomingModal(true);
+        }}
       >
         马上报名
       </div>
@@ -271,7 +401,10 @@ export default function ({}) {
           </p>
         </div>
       </Modal>
-      <BaoMingModal />
+      <BaoMingModal
+        visible={baomingModal}
+        onVisibleChange={() => setBaomingModal(false)}
+      />
     </div>
   );
 }
