@@ -495,6 +495,24 @@ export default function ({}) {
   };
   return (
     <>
+      <img
+        src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/g8vdQ4T69XgAAAAAAAAAAAAAFl94AQBr"
+        style={{
+          height: 1,
+          width: 1,
+          position: 'fixed',
+          top: -999,
+        }}
+      />
+      <img
+        src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/G-y0SotXmNYAAAAAAAAAAAAAFl94AQBr"
+        style={{
+          height: 1,
+          width: 1,
+          position: 'fixed',
+          top: -999,
+        }}
+      />
       <div className={styles.normal}>
         <div
           style={{
