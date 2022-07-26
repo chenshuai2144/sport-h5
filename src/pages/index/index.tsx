@@ -26,10 +26,11 @@ const DisableButton: React.FC<{
         height: '0.9rem',
         display: 'flex',
         alignItems: 'end',
+        backgroundImage: `url("${props.disabled ? DISABLE_BG : SHOW_BG}")`,
+        backgroundSize: '100% 100%',
       }}
       onClick={props.onClick}
     >
-      <img width={80} src={props.disabled ? DISABLE_BG : SHOW_BG} />
       <span
         style={{
           position: 'absolute',
@@ -39,6 +40,7 @@ const DisableButton: React.FC<{
           color: '#fff',
           left: 0,
           top: 0,
+          maxHeight: '0.7rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -484,6 +486,9 @@ export default function ({}) {
   const [action, setActionOBJ] = useState<typeof qiandaoObj | undefined>(
     undefined,
   );
+  useEffect(() => {
+    document.title = '线上马拉松';
+  }, []);
   const setAction = (obj: typeof qiandaoObj | undefined) => {
     setShowModal(false);
     setActionOBJ(obj);

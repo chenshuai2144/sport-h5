@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.css';
 
 /**
@@ -102,6 +102,9 @@ const Modal: React.FC<{
 export default function ({}) {
   const [ruleModal, setRuleModal] = useState(false);
   const [choujiangModal, setChoujiangModal] = useState(false);
+  useEffect(() => {
+    document.title = '报名 - 线上马拉松';
+  }, []);
   return (
     <div className={styles.normal}>
       <div
