@@ -164,6 +164,9 @@ const BaoMingModal: React.FC<{
   );
 };
 
+const f =
+  'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/ACkiTaxpqpgAAAAAAAAAAAAAFl94AQBr';
+
 export default function ({}) {
   const [ruleModal, setRuleModal] = useState(false);
   const [choujiangModal, setChoujiangModal] = useState(false);
