@@ -9,7 +9,8 @@
     "lint-staged:js": "eslint --ext .ts,.tsx",
     "plugin": "alita plugin list",
     "start": "alita dev",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "npm run build && gh-pages -d ./dist"
   },
   "lint-staged": {
     "**/*.{ts,tsx}": "npm run lint-staged:js",
@@ -22,6 +23,7 @@
     "@alita/flow": "*",
     "alita": "^3.0.4",
     "antd-mobile": "^5.15.1",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
