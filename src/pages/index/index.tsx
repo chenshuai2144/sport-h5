@@ -25,28 +25,15 @@ const DisableButton: React.FC<{
         height: '0.9rem',
         display: 'flex',
         alignItems: 'end',
-        backgroundImage: `url("${props.disabled ? DISABLE_BG : props.url}")`,
-        backgroundSize: '100% 100%',
       }}
       onClick={props.onClick}
     >
-      <span
+      <img
         style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          fontSize: '0.32rem',
-          color: '#fff',
-          left: 0,
-          top: 0,
-          maxHeight: '0.7rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: '1.6rem',
         }}
-      >
-        {props.disabled ? '已完成' : props.text}
-      </span>
+        src={props.disabled ? DISABLE_BG : props.url}
+      />
     </div>
   );
 };
@@ -189,6 +176,7 @@ const SuccessModal: React.FC<{
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
+          animation: 'bounceIn 0.5s cubic-bezier(.23,1,.32,1) ',
           gap: 12,
           width: '100%',
         }}
@@ -448,6 +436,18 @@ const Modal: React.FC<{
               text="去分享"
               url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
               onClick={() => {
+                // wx.ready(function () {
+                //   //需在用户可能点击分享按钮前就先调用
+                //   wx.updateAppMessageShareData({
+                //     title: '线上马拉松', // 分享标题
+                //     desc: '参加线上马拉松获得99元大奖', // 分享描述
+                //     link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+                //     imgUrl: '', // 分享图标
+                //     success: function () {
+                //       props.openAction(shareObj);
+                //     },
+                //   });
+                // });
                 props.openAction(shareObj);
               }}
             />
@@ -457,7 +457,13 @@ const Modal: React.FC<{
           icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/分享 (1).png"
           title="跑步步数达3333步及以上"
           subTitle="+0.5 助力值"
-          button={<DisableButton text="去运动" url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr" onClick={() => {}} />}
+          button={
+            <DisableButton
+              text="去运动"
+              url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr"
+              onClick={() => {}}
+            />
+          }
         />
         <div
           style={{
