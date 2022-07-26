@@ -20,6 +20,21 @@ const Modal: React.FC<{
           height: '100%',
           position: 'fixed',
           width: '100%',
+          backgroundColor: 'rgba(0,0,0,0.9)',
+          top: 0,
+          left: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+        }}
+        onClick={() => {
+          props.onVisibleChange(false);
+        }}
+      />
+      <div
+        style={{
+          height: '100%',
+          position: 'fixed',
+          width: '100%',
           backgroundColor: 'rgba(0,0,0,0.5)',
           top: 0,
           left: 0,
@@ -96,6 +111,56 @@ const Modal: React.FC<{
         </div>
       </div>
     </div>
+  );
+};
+
+const BaoMingModal: React.FC<{
+  onClose: () => void;
+}> = (props) => {
+  return (
+    <>
+      <div
+        style={{
+          height: '100%',
+          position: 'fixed',
+          width: '100%',
+          backgroundColor: 'rgba(0,0,0,0.9)',
+          top: 0,
+          left: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+        }}
+        onClick={() => {
+          props.onClose();
+        }}
+      />
+      <div>
+        <div
+          style={{
+            width: '9.5rem',
+            height: '11rem',
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+            backgroundImage:
+              'url("https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/fhq6S6PFlNUAAAAAAAAAAAAAFl94AQBr")',
+          }}
+        >
+          <div
+            style={{
+              background: '#F4F4F4',
+              border: '1px solid #E8E8E8',
+            }}
+          >
+            <input />
+          </div>
+        </div>
+
+        <img
+          alt="完成"
+          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/HVf-TpG9PvkAAAAAAAAAAAAAFl94AQBr"
+        />
+      </div>
+    </>
   );
 };
 
@@ -203,6 +268,7 @@ export default function ({}) {
           </p>
         </div>
       </Modal>
+      <BaoMingModal />
     </div>
   );
 }
