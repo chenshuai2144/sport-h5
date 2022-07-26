@@ -157,7 +157,7 @@ const SuccessModal: React.FC<{
           height: '100%',
           position: 'fixed',
           width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: 'rgba(0,0,0,0.9)',
           top: 0,
           left: 0,
           display: 'flex',
@@ -211,8 +211,11 @@ const Modal: React.FC<{
   onVisibleChange: (visible: boolean) => void;
   openAction: (action: typeof qiandaoObj) => void;
 }> = (props) => {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
+  const hasPhoneNumber = localStorage.getItem('user-phone-number');
   useEffect(() => {
+    if (!hasPhoneNumber) return;
     if (props.visible) {
       setTimeout(() => {
         setProgress(30);
@@ -226,7 +229,7 @@ const Modal: React.FC<{
           height: '100%',
           position: 'fixed',
           width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: 'rgba(0,0,0,0.9)',
           top: 0,
           left: 0,
           display: 'flex',
@@ -474,7 +477,12 @@ const Modal: React.FC<{
           }}
         >
           <img
-            src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png"
+            onClick={() => navigate('/info')}
+            src={
+              hasPhoneNumber
+                ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
+                : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
+            }
             style={{
               width: '3.2rem',
             }}

@@ -13,9 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "umi": ["C:\\github\\sport\\node_modules\\umi"],
-      "umi/typings": ["src/.umi/typings"]
+      "@@/*": ["src/.umi/*"]
     }
-  }
+  },
+  "include": ["typings.d.ts", "**/src/**/*"]
 }

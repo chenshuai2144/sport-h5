@@ -6,4 +6,6 @@
   background-color: #df5650;
   min-height: 100vh;
   position: relative;
+  max-width: 768px;
+  margin: auto;
 }
