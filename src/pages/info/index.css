@@ -1,0 +1,9 @@
+.normal {
+  font-family: Georgia, sans-serif;
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-color: #df5650;
+  min-height: 100vh;
+}

@@ -1,0 +1,14 @@
+node_modules
+.umi
+.umi-production
+*.png
+*.jpg
+*.svg
+.editorconfig
+.env
+.prettierignore
+.gitkeep
+.DS_Store
+.npmrc
+.eslintignore
+.gitignore
