@@ -18,20 +18,16 @@
       id="launch-btn"
       username="gh_d3886c3e87eb"
       path="pages/home/home"
+      style="position: absolute; width: 100%; height: 100%"
     >
-      <script type="text/wxtag-template">
-        <style>.btn { padding: 12px }</style>
+      <div type="text/wxtag-template">
+        <style>
+          .btn {
+            padding: 12px;
+          }
+        </style>
         <button class="btn">打开小程序</button>
-      </script>
+      </div>
     </wx-open-launch-weapp>
-    <script>
-      var btn = document.getElementById('launch-btn');
-      btn.addEventListener('launch', function (e) {
-        console.log('success');
-      });
-      btn.addEventListener('error', function (e) {
-        console.log('fail', e.detail);
-      });
-    </script>
   </body>
 </html>
