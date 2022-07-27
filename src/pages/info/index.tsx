@@ -278,9 +278,14 @@ const BaoMingModal: React.FC<{
             if (info.phoneNumber) {
               localStorage.setItem('user-phone-number', info.phoneNumber);
               setPhoneNumber(info.phoneNumber);
+              fetch('https://proapi.azurewebsites.net/sport/addr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(info),
+              }).then(() => {
+                navigate('/');
+              });
             }
-            console.log(info);
-            navigate('/');
           }}
           alt="完成"
           src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/HVf-TpG9PvkAAAAAAAAAAAAAFl94AQBr"

@@ -212,16 +212,31 @@ const Modal: React.FC<{
   openAction: (action: typeof qiandaoObj) => void;
 }> = (props) => {
   const navigate = useNavigate();
+  const [info, setInfo] = useState<{
+    isShare: true;
+    isSign: true;
+    shareCount: number;
+    signCount: number;
+    stepCount: number;
+    total: number;
+  }>();
   const [progress, setProgress] = useState(0);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
+  const reload = () => {
+    fetch(
+      `https://proapi.azurewebsites.net/sport/active?phone=${hasPhoneNumber}`,
+    )
+      .then((res) => res.json())
+      .then((msg) => {
+        setInfo(msg.data);
+        setProgress(msg.data.total / 60);
+      });
+  };
+
   useEffect(() => {
     if (!hasPhoneNumber) return;
-    if (props.visible) {
-      setTimeout(() => {
-        setProgress(30);
-      }, 300);
-    }
-  }, [props.visible]);
+    reload();
+  }, []);
   return (
     <div>
       <div
@@ -272,7 +287,7 @@ const Modal: React.FC<{
             position: 'relative',
             padding: '0.42rem',
             color: '#ffe8d5',
-            fontSize: '0.40rem',
+            fontSize: '0.32rem',
             textAlign: 'left',
             fontWeight: 'bold',
             marginBottom: '0.24rem',
@@ -290,7 +305,7 @@ const Modal: React.FC<{
               top: '-0.7rem',
             }}
           />
-          我的助力值
+          我的助力值 {info?.total || ''}
           <div
             style={{
               height: '0.2rem',
@@ -421,11 +436,27 @@ const Modal: React.FC<{
           subTitle="+0.2助力值"
           button={
             <img
-              src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/去签到.png"
+              src={
+                info?.isSign
+                  ? DISABLE_BG
+                  : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/去签到.png'
+              }
               width={80}
               alt="去签到"
               onClick={() => {
-                props.openAction(qiandaoObj);
+                if (info?.isSign) return;
+                fetch('https://proapi.azurewebsites.net/sport/sign', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    phone: hasPhoneNumber,
+                  }),
+                }).then(() => {
+                  reload();
+                  props.openAction(qiandaoObj);
+                });
               }}
             />
           }
@@ -437,6 +468,7 @@ const Modal: React.FC<{
           button={
             <DisableButton
               text="去分享"
+              disabled={info?.isShare}
               url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
               onClick={() => {
                 // wx.ready(function () {
@@ -451,7 +483,19 @@ const Modal: React.FC<{
                 //     },
                 //   });
                 // });
-                props.openAction(shareObj);
+                if (info?.isShare) return;
+                fetch('https://proapi.azurewebsites.net/sport/share', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    phone: hasPhoneNumber,
+                  }),
+                }).then(() => {
+                  reload();
+                  props.openAction(shareObj);
+                });
               }}
             />
           }
