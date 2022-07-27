@@ -512,27 +512,31 @@ const Modal: React.FC<{
             />
           }
         />
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <img
-            onClick={() => navigate('/info')}
-            src={
-              hasPhoneNumber
-                ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
-                : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
-            }
+        {(info?.total || 0) > 20 ? (
+          <div
             style={{
-              width: '3.2rem',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-            alt="参与抽奖"
-          />
-        </div>
+          >
+            <img
+              onClick={() => navigate('/info')}
+              src={
+                hasPhoneNumber
+                  ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
+                  : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
+              }
+              style={{
+                width: '3.2rem',
+              }}
+              alt="参与抽奖"
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
@@ -547,6 +551,7 @@ export default function ({}) {
   useEffect(() => {
     document.title = '线上马拉松';
   }, []);
+  const hasPhoneNumber = localStorage.getItem('user-phone-number');
   const setAction = (obj: typeof qiandaoObj | undefined) => {
     setShowModal(false);
     setActionOBJ(obj);
@@ -638,20 +643,23 @@ export default function ({}) {
             paddingTop: '1rem',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: hasPhoneNumber ? 'center' : 'space-between',
           }}
         >
-          <img
-            src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp"
-            alt="报名"
-            style={{
-              width: '3.2rem',
-              top: '8rem',
-              marginBottom: '-0.2rem',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate('/info')}
-          />
+          {hasPhoneNumber ? null : (
+            <img
+              src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp"
+              alt="报名"
+              style={{
+                width: '3.2rem',
+                top: '8rem',
+                marginBottom: '-0.2rem',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate('/info')}
+            />
+          )}
+
           <img
             src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%2020.webp"
             alt="get"
