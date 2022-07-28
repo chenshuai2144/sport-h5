@@ -309,7 +309,12 @@ export default function ({}) {
   const [ruleModal, setRuleModal] = useState(false);
   const [choujiangModal, setChoujiangModal] = useState(false);
   const [baomingModal, setBaomingModal] = useState(false);
+  const hasPhoneNumber = localStorage.getItem('user-phone-number');
   useEffect(() => {
+    if (hasPhoneNumber) {
+      document.title = '查看规则 - 线上马拉松';
+      return;
+    }
     document.title = '报名 - 线上马拉松';
   }, []);
   return (
@@ -349,24 +354,28 @@ export default function ({}) {
         }}
         src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/KgXiQqPLxOQAAAAAAAAAAAAAFl94AQBr"
       />
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          backgroundColor: '#62a7ef',
-          width: '100%',
-          height: '1.28rem',
-          color: '#fff',
-          fontSize: '0.48rem',
-          fontWeight: 'bold',
-          lineHeight: '1.28rem',
-        }}
-        onClick={() => {
-          setBaomingModal(true);
-        }}
-      >
-        马上报名
-      </div>
+      {hasPhoneNumber ? (
+        ''
+      ) : (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            backgroundColor: '#62a7ef',
+            width: '100%',
+            height: '1.28rem',
+            color: '#fff',
+            fontSize: '0.48rem',
+            fontWeight: 'bold',
+            lineHeight: '1.28rem',
+          }}
+          onClick={() => {
+            setBaomingModal(true);
+          }}
+        >
+          马上报名
+        </div>
+      )}
       <Modal
         visible={ruleModal}
         title="活动规则"
@@ -414,12 +423,17 @@ export default function ({}) {
             累计助力值指数达到 30，即可价值 99 元、388 元、588 元、888
             元“三衢味鲜辣运动包”四次抽奖活动。
           </p>
+          <p>10月10日 20:00-24:00 开奖</p>
         </div>
       </Modal>
-      <BaoMingModal
-        visible={baomingModal}
-        onVisibleChange={() => setBaomingModal(false)}
-      />
+      {hasPhoneNumber ? (
+        ''
+      ) : (
+        <BaoMingModal
+          visible={baomingModal}
+          onVisibleChange={() => setBaomingModal(false)}
+        />
+      )}
     </div>
   );
 }
