@@ -1,4 +1,5 @@
 import { useNavigate } from 'alita';
+import { Toast } from 'antd-mobile';
 import React, { useEffect, useState } from 'react';
 import styles from './index.css';
 
@@ -278,13 +279,22 @@ const BaoMingModal: React.FC<{
             if (info.phoneNumber) {
               localStorage.setItem('user-phone-number', info.phoneNumber);
               setPhoneNumber(info.phoneNumber);
+              const toast = Toast.show({
+                icon: 'loading',
+                content: '正在记录内容...',
+              });
               fetch('https://proapi.azurewebsites.net/sport/addr', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(info),
-              }).then(() => {
-                navigate('/');
-              });
+              })
+                .then(() => {
+                  toast.close();
+                  navigate('/');
+                })
+                .catch(() => {
+                  return;
+                });
             }
           }}
           alt="完成"
@@ -294,9 +304,6 @@ const BaoMingModal: React.FC<{
     </>
   );
 };
-
-const f =
-  'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/ACkiTaxpqpgAAAAAAAAAAAAAFl94AQBr';
 
 export default function ({}) {
   const [ruleModal, setRuleModal] = useState(false);

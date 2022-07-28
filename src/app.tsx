@@ -1,4 +1,6 @@
 import type { ResponseError } from 'alita';
+import 'react-weui/build/packages/react-weui.css';
+import 'weui';
 
 export const request = {
   prefix: '/api',

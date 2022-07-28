@@ -1,5 +1,7 @@
 import { useNavigate } from 'alita';
+import { Toast } from 'antd-mobile';
 import React, { useEffect, useState } from 'react';
+
 import styles from './index.css';
 
 const DISABLE_BG =
@@ -230,6 +232,9 @@ const Modal: React.FC<{
       .then((msg) => {
         setInfo(msg.data);
         setProgress(msg.data.total / 60);
+      })
+      .catch(() => {
+        setInfo(info);
       });
   };
 
@@ -445,6 +450,10 @@ const Modal: React.FC<{
               alt="去签到"
               onClick={() => {
                 if (info?.isSign) return;
+                const toast = Toast.show({
+                  icon: 'loading',
+                  content: '正在签到中...',
+                });
                 fetch('https://proapi.azurewebsites.net/sport/sign', {
                   method: 'POST',
                   headers: {
@@ -453,10 +462,15 @@ const Modal: React.FC<{
                   body: JSON.stringify({
                     phone: hasPhoneNumber,
                   }),
-                }).then(() => {
-                  reload();
-                  props.openAction(qiandaoObj);
-                });
+                })
+                  .then(() => {
+                    reload();
+                    toast.close();
+                    props.openAction(qiandaoObj);
+                  })
+                  .catch(() => {
+                    return;
+                  });
               }}
             />
           }
@@ -484,6 +498,10 @@ const Modal: React.FC<{
                 //   });
                 // });
                 if (info?.isShare) return;
+                const toast = Toast.show({
+                  icon: 'loading',
+                  content: '正在分享内容...',
+                });
                 fetch('https://proapi.azurewebsites.net/sport/share', {
                   method: 'POST',
                   headers: {
@@ -492,10 +510,15 @@ const Modal: React.FC<{
                   body: JSON.stringify({
                     phone: hasPhoneNumber,
                   }),
-                }).then(() => {
-                  reload();
-                  props.openAction(shareObj);
-                });
+                })
+                  .then(() => {
+                    toast.close();
+                    reload();
+                    props.openAction(shareObj);
+                  })
+                  .catch(() => {
+                    return;
+                  });
               }}
             />
           }
