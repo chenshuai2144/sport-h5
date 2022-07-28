@@ -1,6 +1,6 @@
 import { useNavigate } from 'alita';
 import { Toast } from 'antd-mobile';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './index.css';
 
@@ -223,6 +223,16 @@ const Modal: React.FC<{
     stepCount: number;
     total: number;
   }>();
+  const infoRef = useRef<{
+    isShare: boolean;
+    isSign: boolean;
+    isStep: boolean;
+    shareCount: number;
+    signCount: number;
+    stepCount: number;
+    total: number;
+  }>();
+  infoRef.current = info;
   const [progress, setProgress] = useState(0);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
   const reload = () => {
@@ -278,8 +288,10 @@ const Modal: React.FC<{
                 }),
               })
                 .then(() => {
-                  reload();
-                  props.openAction(shareObj);
+                  if (!infoRef?.current?.isShare) {
+                    reload();
+                    props.openAction(shareObj);
+                  }
                 })
                 .catch(() => {
                   return;
@@ -305,8 +317,10 @@ const Modal: React.FC<{
                 }),
               })
                 .then(() => {
-                  reload();
-                  props.openAction(shareObj);
+                  if (!infoRef?.current?.isShare) {
+                    reload();
+                    props.openAction(shareObj);
+                  }
                 })
                 .catch(() => {
                   return;
@@ -574,12 +588,16 @@ const Modal: React.FC<{
                 if (!hasPhoneNumber) {
                   Toast.show({
                     icon: 'fail',
-                    content: '要先报名后才能开始打卡哦',
+                    content: '要先报名后才能完成任务哦',
                   });
                   navigate('/info');
                   return;
                 }
                 if (info?.isShare) return;
+                Toast.show({
+                  icon: 'success',
+                  content: '点击右上角就可以分享了哦',
+                });
               }}
             />
           }
