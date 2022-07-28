@@ -528,11 +528,28 @@ const Modal: React.FC<{
           title="跑步步数达3333步及以上"
           subTitle="+0.5 助力值"
           button={
-            <DisableButton
-              text="去运动"
-              url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr"
-              onClick={() => {}}
-            />
+            <wx-open-launch-weapp
+              id="launch-btn"
+              username="gh_d3886c3e87eb"
+              path="pages/home/home"
+              style={{
+                width: '1.6rem',
+                cursor: 'pointer',
+              }}
+            >
+              <script type="text/wxtag-template">
+                <img
+                  style={{
+                    width: '100%',
+                  }}
+                  src={
+                    info?.isSign
+                      ? DISABLE_BG
+                      : 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr'
+                  }
+                />
+              </script>
+            </wx-open-launch-weapp>
           }
         />
         {(info?.total || 0) > 20 ? (
@@ -686,13 +703,18 @@ export default function ({}) {
             id="launch-btn"
             username="gh_d3886c3e87eb"
             path="pages/home/home"
+            style={{
+              width: '3rem',
+              top: '8rem',
+              cursor: 'pointer',
+            }}
           >
             <script type="text/wxtag-template">
               <img
                 src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%2020.webp"
                 alt="get"
                 style={{
-                  width: '3rem',
+                  width: '100%',
                   top: '8rem',
                   cursor: 'pointer',
                 }}
