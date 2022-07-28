@@ -620,8 +620,9 @@ export default function ({}) {
           style={{
             width: '90%',
             marginTop: '30%',
+            maxWidth: '325px',
           }}
-          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/v-WHSZrFILAAAAAAAAAAAAAAFl94AQBr"
+          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/TFbJQIrjfRcAAAAAAAAAAAAAFl94AQBr"
         />
         <div
           style={{
@@ -722,7 +723,7 @@ export default function ({}) {
             style={{
               width: '3.2rem',
               top: '8rem',
-              marginBottom: '-0.2rem',
+              marginBottom: hasPhoneNumber ? 0 : '-0.2rem',
               cursor: 'pointer',
             }}
             onClick={() => navigate('/info')}
