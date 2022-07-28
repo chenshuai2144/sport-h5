@@ -579,7 +579,7 @@ const Modal: React.FC<{
             <wx-open-launch-weapp
               id="launch-btn"
               username="gh_d3886c3e87eb"
-              path="pages/home/home"
+              path="pagesCloud/pages/runData/runData"
               style={{
                 width: '1.6rem',
                 cursor: 'pointer',
