@@ -1,41 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="shortcut icon" href="/favicon.png" />
-    <link rel="stylesheet" href="/umi.css" />
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="/umi.js"></script>
-    <wx-open-launch-weapp
-      id="launch-btn"
-      username="gh_d3886c3e87eb"
-      path="pages/home/home"
-    >
-      <script type="text/wxtag-template">
-        <style>
-          .btn {
-            padding: 12px;
-          }
-        </style>
-        <button class="btn">打开小程序</button>
-      </script>
-    </wx-open-launch-weapp>
-    <script>
-      var btn = document.getElementById('launch-btn');
-      btn.addEventListener('launch', function (e) {
-        console.log('success');
-      });
-      btn.addEventListener('error', function (e) {
-        console.log('fail', e.detail);
-      });
-    </script>
-  </body>
-</html>
+<!DOCTYPE html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/umi.css">
+<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script src="/umi.js"></script>
+
+</body></html>
