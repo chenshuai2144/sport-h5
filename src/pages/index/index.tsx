@@ -618,10 +618,10 @@ export default function ({}) {
       >
         <img
           style={{
-            width: '100%',
-            height: '100vh',
+            width: '90%',
+            marginTop: '30%',
           }}
-          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/P8S9T6TTd7oAAAAAAAAAAAAAFl94AQBr"
+          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/v-WHSZrFILAAAAAAAAAAAAAAFl94AQBr"
         />
         <div
           style={{
@@ -732,7 +732,7 @@ export default function ({}) {
           <wx-open-launch-weapp
             id="launch-btn"
             username="gh_d3886c3e87eb"
-            path="pages/home/home"
+            path="pagesCloud/pages/diversion6/diversion6.html"
             style={{
               width: '3rem',
               top: '8rem',
