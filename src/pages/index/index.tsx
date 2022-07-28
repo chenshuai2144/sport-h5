@@ -215,8 +215,9 @@ const Modal: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
   const [info, setInfo] = useState<{
-    isShare: true;
-    isSign: true;
+    isShare: boolean;
+    isSign: boolean;
+    isStep: boolean;
     shareCount: number;
     signCount: number;
     stepCount: number;
@@ -449,6 +450,10 @@ const Modal: React.FC<{
               width={80}
               alt="去签到"
               onClick={() => {
+                if (!hasPhoneNumber) {
+                  navigate('/info');
+                  return;
+                }
                 if (info?.isSign) return;
                 const toast = Toast.show({
                   icon: 'loading',
@@ -485,46 +490,51 @@ const Modal: React.FC<{
               disabled={info?.isShare}
               url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
               onClick={() => {
-                // wx.ready(function () {
-                //   //需在用户可能点击分享按钮前就先调用
-                //   wx.updateAppMessageShareData({
-                //     title: '线上马拉松', // 分享标题
-                //     desc: '参加线上马拉松获得99元大奖', // 分享描述
-                //     link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
-                //     imgUrl: '', // 分享图标
-                //     success: function () {
-                //       props.openAction(shareObj);
-                //     },
-                //   });
-                // });
+                if (!hasPhoneNumber) {
+                  navigate('/info');
+                  return;
+                }
                 if (info?.isShare) return;
-                const toast = Toast.show({
-                  icon: 'loading',
-                  content: '正在分享内容...',
-                });
-                fetch('https://proapi.azurewebsites.net/sport/share', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    phone: hasPhoneNumber,
-                  }),
-                })
-                  .then(() => {
-                    toast.close();
-                    reload();
-                    props.openAction(shareObj);
-                  })
-                  .catch(() => {
-                    return;
+                wx.ready(function () {
+                  const toast = Toast.show({
+                    icon: 'loading',
+                    content: '正在分享内容...',
                   });
+                  //需在用户可能点击分享按钮前就先调用
+                  wx.updateAppMessageShareData({
+                    title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
+                    desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
+                    link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+                    imgUrl:
+                      'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
+                    success: function () {
+                      fetch('https://proapi.azurewebsites.net/sport/share', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          phone: hasPhoneNumber,
+                        }),
+                      })
+                        .then(() => {
+                          toast.close();
+                          reload();
+                          props.openAction(shareObj);
+                        })
+                        .catch(() => {
+                          toast.close();
+                          return;
+                        });
+                    },
+                  });
+                });
               }}
             />
           }
         />
         <Item
-          icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/分享 (1).png"
+          icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png"
           title="跑步步数达3333步及以上"
           subTitle="+0.5 助力值"
           button={
@@ -543,7 +553,7 @@ const Modal: React.FC<{
                     width: '100%',
                   }}
                   src={
-                    info?.isSign
+                    info?.isStep
                       ? DISABLE_BG
                       : 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr'
                   }
@@ -562,7 +572,12 @@ const Modal: React.FC<{
             }}
           >
             <img
-              onClick={() => navigate('/info')}
+              onClick={() => {
+                if (hasPhoneNumber) {
+                  return;
+                }
+                navigate('/info');
+              }}
               src={
                 hasPhoneNumber
                   ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
