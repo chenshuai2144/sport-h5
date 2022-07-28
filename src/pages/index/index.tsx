@@ -682,16 +682,23 @@ export default function ({}) {
               onClick={() => navigate('/info')}
             />
           )}
-
-          <img
-            src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%2020.webp"
-            alt="get"
-            style={{
-              width: '3rem',
-              top: '8rem',
-              cursor: 'pointer',
-            }}
-          />
+          <wx-open-launch-weapp
+            id="launch-btn"
+            username="gh_d3886c3e87eb"
+            path="pages/home/home"
+          >
+            <script type="text/wxtag-template">
+              <img
+                src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%2020.webp"
+                alt="get"
+                style={{
+                  width: '3rem',
+                  top: '8rem',
+                  cursor: 'pointer',
+                }}
+              />
+            </script>
+          </wx-open-launch-weapp>
         </div>
       </div>
       <Modal
