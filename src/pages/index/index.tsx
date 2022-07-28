@@ -256,7 +256,7 @@ const Modal: React.FC<{
         wx.updateAppMessageShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+           link: location.href, , // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {},
@@ -264,7 +264,7 @@ const Modal: React.FC<{
         wx.updateTimelineShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+           link: location.href, , // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {},
@@ -273,7 +273,7 @@ const Modal: React.FC<{
         wx.onMenuShareTimeline({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+           link: location.href, , // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {
@@ -300,7 +300,7 @@ const Modal: React.FC<{
         wx.onMenuShareAppMessage({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: 'https://sport.chenshuai.net/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {
