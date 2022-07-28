@@ -203,6 +203,15 @@ const SuccessModal: React.FC<{
   );
 };
 
+function getQueryString(name: string) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
+
 /**
  * 最重要的活动弹框
  * @param props
@@ -250,13 +259,32 @@ const Modal: React.FC<{
   };
 
   useEffect(() => {
+    if (getQueryString('phone') && getQueryString('phone') !== hasPhoneNumber) {
+      fetch('https://proapi.azurewebsites.net/sport/share', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone: getQueryString('phone'),
+        }),
+      })
+        .then(() => {
+          if (!infoRef?.current?.isShare) {
+            reload();
+          }
+        })
+        .catch(() => {
+          return;
+        });
+    }
     wx.ready(() => {
       try {
         //需在用户可能点击分享按钮前就先调用
         wx.updateAppMessageShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+          link: location.origin + '?phone=' + hasPhoneNumber,
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {},
@@ -264,65 +292,10 @@ const Modal: React.FC<{
         wx.updateTimelineShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+          link: location.origin + '?phone=' + hasPhoneNumber,
           imgUrl:
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {},
-        });
-
-        wx.onMenuShareTimeline({
-          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
-          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
-          imgUrl:
-            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
-          success: function () {
-            fetch('https://proapi.azurewebsites.net/sport/share', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                phone: hasPhoneNumber,
-              }),
-            })
-              .then(() => {
-                if (!infoRef?.current?.isShare) {
-                  reload();
-                  props.openAction(shareObj);
-                }
-              })
-              .catch(() => {
-                return;
-              });
-          },
-        });
-        wx.onMenuShareAppMessage({
-          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
-          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
-          imgUrl:
-            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
-          success: function () {
-            fetch('https://proapi.azurewebsites.net/sport/share', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                phone: hasPhoneNumber,
-              }),
-            })
-              .then(() => {
-                if (!infoRef?.current?.isShare) {
-                  reload();
-                  props.openAction(shareObj);
-                }
-              })
-              .catch(() => {
-                return;
-              });
-          },
         });
       } catch (error) {}
     });
