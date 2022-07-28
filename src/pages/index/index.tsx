@@ -1,5 +1,6 @@
+// @ts-ignore
 import { useNavigate } from 'alita';
-import { Toast } from 'antd-mobile';
+import { DotLoading, Toast } from 'antd-mobile';
 import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './index.css';
@@ -78,6 +79,7 @@ const Item: React.FC<{
             flexDirection: 'column',
             alignItems: 'flex-start',
             marginRight: '0.12rem',
+            marginLeft: '0.12rem',
           }}
         >
           <div
@@ -178,7 +180,7 @@ const Modal: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
   const [info, setInfo] = useState<{
-    isShare: boolean;
+    stepNumber: number;
     isSign: boolean;
     isStep: boolean;
     shareCount: number;
@@ -187,7 +189,7 @@ const Modal: React.FC<{
     total: number;
   }>();
   const infoRef = useRef<{
-    isShare: boolean;
+    stepNumber: number;
     isSign: boolean;
     isStep: boolean;
     shareCount: number;
@@ -196,6 +198,7 @@ const Modal: React.FC<{
     total: number;
   }>();
   infoRef.current = info;
+
   const [progress, setProgress] = useState(0);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
   const reload = () => {
@@ -309,7 +312,21 @@ const Modal: React.FC<{
               top: '-0.7rem',
             }}
           />
-          我的助力值 {info?.total || ''}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>我的助力值 {info?.total || ''}</div>
+            {info?.stepNumber ? (
+              <div>当前步数 {info?.stepNumber || ''}</div>
+            ) : (
+              ''
+            )}
+          </div>
+
           <div
             style={{
               height: '0.2rem',
@@ -485,8 +502,8 @@ const Modal: React.FC<{
 
         <Item
           icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png"
-          title="跑步步数达3333步及以上"
-          subTitle="+0.8 助力值"
+          title="点击同步微信步数"
+          subTitle="步数3333步及以上+0.8助力值"
           button={
             // @ts-ignore
             <wx-open-launch-weapp
@@ -506,7 +523,7 @@ const Modal: React.FC<{
                   src={
                     info?.isStep
                       ? DISABLE_BG
-                      : 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/N7JcTKFje3AAAAAAAAAAAAAAFl94AQBr'
+                      : 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/klIqTJoGd0sAAAAAAAAAAAAAFl94AQBr'
                   }
                 />
               </script>
@@ -552,12 +569,20 @@ const Modal: React.FC<{
 
 export default function ({}) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [action, setActionOBJ] = useState<typeof qiandaoObj | undefined>(
     undefined,
   );
   useEffect(() => {
     document.title = '线上马拉松';
+    // @ts-ignore
+    wx.ready(() => {
+      setLoading(false);
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }, []);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
   const setAction = (obj: typeof qiandaoObj | undefined) => {
@@ -584,7 +609,39 @@ export default function ({}) {
           top: -999,
         }}
       />
-      <div className={styles.normal}>
+      <div
+        className={styles.normal}
+        style={{
+          position: 'relative',
+          display: !loading ? 'none' : 'block',
+        }}
+      >
+        <img
+          style={{
+            width: '100%',
+          }}
+          src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/P8S9T6TTd7oAAAAAAAAAAAAAFl94AQBr"
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '65%',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'center',
+            fontSize: '1rem',
+          }}
+        >
+          <DotLoading color="#FFF" />
+        </div>
+      </div>
+      <div
+        className={styles.normal}
+        style={{
+          display: loading ? 'none' : 'block',
+        }}
+      >
         <div
           style={{
             position: 'absolute',
@@ -654,19 +711,22 @@ export default function ({}) {
             justifyContent: hasPhoneNumber ? 'center' : 'space-between',
           }}
         >
-          {hasPhoneNumber ? null : (
-            <img
-              src="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp"
-              alt="报名"
-              style={{
-                width: '3.2rem',
-                top: '8rem',
-                marginBottom: '-0.2rem',
-                cursor: 'pointer',
-              }}
-              onClick={() => navigate('/info')}
-            />
-          )}
+          <img
+            src={
+              hasPhoneNumber
+                ? 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/9KrCT5HkQHAAAAAAAAAAAAAAFl94AQBr'
+                : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
+            }
+            alt="报名"
+            style={{
+              width: '3.2rem',
+              top: '8rem',
+              marginBottom: '-0.2rem',
+              cursor: 'pointer',
+            }}
+            onClick={() => navigate('/info')}
+          />
+
           {/* @ts-ignore */}
           <wx-open-launch-weapp
             id="launch-btn"

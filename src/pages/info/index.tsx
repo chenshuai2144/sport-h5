@@ -1,3 +1,4 @@
+// @ts-ignore
 import { useNavigate } from 'alita';
 import { Toast } from 'antd-mobile';
 import React, { useEffect, useState } from 'react';
