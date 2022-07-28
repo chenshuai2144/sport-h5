@@ -488,6 +488,7 @@ const Modal: React.FC<{
           title="跑步步数达3333步及以上"
           subTitle="+0.8 助力值"
           button={
+            // @ts-ignore
             <wx-open-launch-weapp
               id="launch-btn"
               username="gh_d3886c3e87eb"
@@ -509,6 +510,7 @@ const Modal: React.FC<{
                   }
                 />
               </script>
+              {/* @ts-ignore */}
             </wx-open-launch-weapp>
           }
         />
@@ -665,6 +667,7 @@ export default function ({}) {
               onClick={() => navigate('/info')}
             />
           )}
+          {/* @ts-ignore */}
           <wx-open-launch-weapp
             id="launch-btn"
             username="gh_d3886c3e87eb"
@@ -686,6 +689,7 @@ export default function ({}) {
                 }}
               />
             </script>
+            {/* @ts-ignore */}
           </wx-open-launch-weapp>
         </div>
       </div>
