@@ -619,6 +619,7 @@ export default function ({}) {
         <img
           style={{
             width: '100%',
+            height: '100vh',
           }}
           src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/P8S9T6TTd7oAAAAAAAAAAAAAFl94AQBr"
         />
