@@ -8,39 +8,6 @@ const DISABLE_BG =
   'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/hvyNRr5Nf3oAAAAAAAAAAAAAFl94AQBr';
 
 /**
- * 支持 disable 的配置
- * @param props
- * @returns
- */
-const DisableButton: React.FC<{
-  text: string;
-  disabled?: boolean;
-  onClick: any;
-  url: string;
-}> = (props) => {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        cursor: 'pointer',
-        width: '1.6rem',
-        height: '0.9rem',
-        display: 'flex',
-        alignItems: 'end',
-      }}
-      onClick={props.onClick}
-    >
-      <img
-        style={{
-          width: '1.6rem',
-        }}
-        src={props.disabled ? DISABLE_BG : props.url}
-      />
-    </div>
-  );
-};
-
-/**
  * 自带的icon配置
  * @param props
  * @returns
@@ -142,10 +109,6 @@ const qiandaoObj = {
   url: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/g8vdQ4T69XgAAAAAAAAAAAAAFl94AQBr',
   btnText: '我知道了',
 };
-const shareObj = {
-  url: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/G-y0SotXmNYAAAAAAAAAAAAAFl94AQBr',
-  btnText: '我知道了',
-};
 
 const SuccessModal: React.FC<{
   url: string;
@@ -203,15 +166,6 @@ const SuccessModal: React.FC<{
   );
 };
 
-function getQueryString(name: string) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
-  }
-  return null;
-}
-
 /**
  * 最重要的活动弹框
  * @param props
@@ -259,28 +213,11 @@ const Modal: React.FC<{
   };
 
   useEffect(() => {
-    if (getQueryString('phone') && getQueryString('phone') !== hasPhoneNumber) {
-      fetch('https://proapi.azurewebsites.net/sport/share', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          phone: getQueryString('phone'),
-        }),
-      })
-        .then(() => {
-          if (!infoRef?.current?.isShare) {
-            reload();
-          }
-        })
-        .catch(() => {
-          return;
-        });
-    }
+    // @ts-ignore
     wx.ready(() => {
       try {
         //需在用户可能点击分享按钮前就先调用
+        // @ts-ignore
         wx.updateAppMessageShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
@@ -289,6 +226,7 @@ const Modal: React.FC<{
             'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
           success: function () {},
         });
+        // @ts-ignore
         wx.updateTimelineShareData({
           title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
           desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
@@ -544,37 +482,11 @@ const Modal: React.FC<{
             />
           }
         />
-        <Item
-          icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/分享 (1).png"
-          title="成功分享链接到好友"
-          subTitle="+0.3 助力值"
-          button={
-            <DisableButton
-              text="去分享"
-              disabled={info?.isShare}
-              url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
-              onClick={() => {
-                if (!hasPhoneNumber) {
-                  Toast.show({
-                    icon: 'fail',
-                    content: '要先报名后才能完成任务哦',
-                  });
-                  navigate('/info');
-                  return;
-                }
-                if (info?.isShare) return;
-                Toast.show({
-                  icon: 'success',
-                  content: '点击右上角就可以分享了哦',
-                });
-              }}
-            />
-          }
-        />
+
         <Item
           icon="https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png"
           title="跑步步数达3333步及以上"
-          subTitle="+0.5 助力值"
+          subTitle="+0.8 助力值"
           button={
             <wx-open-launch-weapp
               id="launch-btn"
