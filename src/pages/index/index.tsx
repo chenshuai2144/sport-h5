@@ -451,6 +451,10 @@ const Modal: React.FC<{
               alt="去签到"
               onClick={() => {
                 if (!hasPhoneNumber) {
+                  Toast.show({
+                    icon: 'fail',
+                    content: '要先报名后才能开始打卡哦',
+                  });
                   navigate('/info');
                   return;
                 }
@@ -491,6 +495,10 @@ const Modal: React.FC<{
               url="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/GkmfQZMwtVgAAAAAAAAAAAAAFl94AQBr"
               onClick={() => {
                 if (!hasPhoneNumber) {
+                  Toast.show({
+                    icon: 'fail',
+                    content: '要先报名后才能开始打卡哦',
+                  });
                   navigate('/info');
                   return;
                 }
@@ -576,6 +584,7 @@ const Modal: React.FC<{
                 if (hasPhoneNumber) {
                   return;
                 }
+
                 navigate('/info');
               }}
               src={
