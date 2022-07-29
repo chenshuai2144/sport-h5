@@ -531,7 +531,26 @@ const Modal: React.FC<{
             </wx-open-launch-weapp>
           }
         />
-        {(info?.total || 0) > 20 ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <a
+            style={{
+              color: 'rgb(248, 181, 81)',
+              marginTop: '0.12rem',
+            }}
+            onClick={() => {
+              reload();
+            }}
+          >
+            刷新步数
+          </a>
+        </div>
+        {(info?.total || 0) > 10 ? (
           <div
             style={{
               width: '100%',
