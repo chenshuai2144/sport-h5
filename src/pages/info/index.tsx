@@ -323,7 +323,7 @@ export default function ({}) {
       <div
         style={{
           position: 'absolute',
-          top: '25.6%',
+          top: '25%',
           right: '0%',
           width: '100%',
           height: '0.5rem',
@@ -336,7 +336,7 @@ export default function ({}) {
       <div
         style={{
           position: 'absolute',
-          top: '27.4%',
+          top: '26.6%',
           right: '0%',
           width: '100%',
           height: '0.5rem',
@@ -353,7 +353,7 @@ export default function ({}) {
           position: 'relative',
           top: '-0.4rem',
         }}
-        src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/KgXiQqPLxOQAAAAAAAAAAAAAFl94AQBr"
+        src="https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/1I5cTIMPOqQAAAAAAAAAAAAAFl94AQBr"
       />
       {hasPhoneNumber ? (
         ''
