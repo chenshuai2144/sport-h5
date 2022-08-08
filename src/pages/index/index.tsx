@@ -201,6 +201,11 @@ const Modal: React.FC<{
 
   const [progress, setProgress] = useState(0);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
+  const [prize, setPrize] = useState<{
+    phone: string;
+    total: string;
+    date: string;
+  }>();
   const reload = () => {
     fetch(
       `https://proapi.azurewebsites.net/sport/active?phone=${hasPhoneNumber}`,
@@ -215,35 +220,94 @@ const Modal: React.FC<{
       });
   };
 
-  useEffect(() => {
-    // @ts-ignore
-    wx.ready(() => {
-      try {
-        //需在用户可能点击分享按钮前就先调用
-        // @ts-ignore
-        wx.updateAppMessageShareData({
-          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
-          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.origin + '?phone=' + hasPhoneNumber,
-          imgUrl:
-            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
-          success: function () {},
-        });
-        // @ts-ignore
-        wx.updateTimelineShareData({
-          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
-          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
-          link: location.origin + '?phone=' + hasPhoneNumber,
-          imgUrl:
-            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
-          success: function () {},
-        });
-      } catch (error) {}
-    });
+  const reloadPrize = () => {
+    fetch(
+      `https://proapi.azurewebsites.net/sport/prize?phone=${hasPhoneNumber}`,
+    )
+      .then((res) => res.json())
+      .then((msg) => {
+        setPrize(msg.data);
+      })
+      .catch(() => {
+        setInfo(info);
+      });
+  };
 
+  useEffect(() => {
     if (!hasPhoneNumber) return;
     reload();
+    reloadPrize();
   }, []);
+  const getButton = () => {
+    const infoTotal = info?.total || 0;
+    const prizeTotal = prize?.total || 0;
+    if (infoTotal < 6) {
+      return <div>助力值到达10后即可抽奖哦</div>;
+    }
+    if (infoTotal > 10 && prizeTotal >= 10) {
+      return <div>助力值到达20之后即可再次抽奖哦</div>;
+    }
+    if (infoTotal > 20 && prizeTotal >= 20) {
+      return <div>助力值到达25之后即可再次抽奖哦</div>;
+    }
+    if (infoTotal > 25 && prizeTotal >= 25) {
+      return <div>助力值到达30之后即可再次抽奖哦</div>;
+    }
+    if (infoTotal > 30 && prizeTotal >= 30) {
+      return <div>恭喜你完成了所有的任务，等待开奖即可获得中奖信息</div>;
+    }
+    return (
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img
+          onClick={() => {
+            if (!hasPhoneNumber) {
+              return;
+            }
+            const toast = Toast.show({
+              icon: 'loading',
+              content: '正在参与抽奖...',
+            });
+            fetch('https://proapi.azurewebsites.net/sport/prize', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                phone: hasPhoneNumber,
+              }),
+            })
+              .then(() => {
+                toast.close();
+                reloadPrize();
+                props.openAction({
+                  ...qiandaoObj,
+                  url: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/47lXQJRPz5EAAAAAAAAAAAAAFl94AQBr',
+                });
+              })
+              .catch(() => {
+                return;
+              });
+          }}
+          src={
+            hasPhoneNumber
+              ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
+              : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
+          }
+          style={{
+            width: '3.2rem',
+          }}
+          alt="参与抽奖"
+        />
+      </div>
+    );
+  };
   return (
     <div>
       <div
@@ -550,37 +614,7 @@ const Modal: React.FC<{
             刷新步数
           </a>
         </div>
-        {(info?.total || 0) > 10 ? (
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <img
-              onClick={() => {
-                if (hasPhoneNumber) {
-                  return;
-                }
-
-                navigate('/info');
-              }}
-              src={
-                hasPhoneNumber
-                  ? 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/组 20 (1).png'
-                  : 'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/%E7%BB%84%201.webp'
-              }
-              style={{
-                width: '3.2rem',
-              }}
-              alt="参与抽奖"
-            />
-          </div>
-        ) : (
-          ''
-        )}
+        {getButton()}
       </div>
     </div>
   );
@@ -602,6 +636,32 @@ export default function ({}) {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
+
+    // @ts-ignore
+    wx.ready(() => {
+      const hasPhoneNumber = localStorage.getItem('user-phone-number');
+      try {
+        //需在用户可能点击分享按钮前就先调用
+        // @ts-ignore
+        wx.updateAppMessageShareData({
+          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
+          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
+          link: location.origin + '?phone=' + hasPhoneNumber,
+          imgUrl:
+            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
+          success: function () {},
+        });
+        // @ts-ignore
+        wx.updateTimelineShareData({
+          title: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享标题
+          desc: '“鲜辣衢州 共富@未来”一起公益助跑', // 分享描述
+          link: location.origin + '?phone=' + hasPhoneNumber,
+          imgUrl:
+            'https://chenshuai2144baseimage.blob.core.windows.net/newcontainer/跑步 (1).png', // 分享图标
+          success: function () {},
+        });
+      } catch (error) {}
+    });
   }, []);
   const hasPhoneNumber = localStorage.getItem('user-phone-number');
   const setAction = (obj: typeof qiandaoObj | undefined) => {
